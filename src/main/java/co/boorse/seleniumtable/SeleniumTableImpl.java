@@ -3,6 +3,7 @@ package co.boorse.seleniumtable;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,39 +17,25 @@ import java.util.stream.Collectors;
  */
 class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
-    private boolean hasTBody;
-
-    private boolean hasTHead;
-
-    private boolean hasTFoot;
-
     SeleniumTableImpl(WebElement tableElement) {
         super(tableElement);
         String tagName = getElement().getTagName();
-        if (!tagName.toLowerCase().equals("table")) {
+        String[] allowedTags = {"table", "tbody", "thead", "tfoot"};
+        if (!Arrays.asList(allowedTags).contains(tagName.toLowerCase())) {
             // this is not an html table!
             throw new IllegalArgumentException("Invalid element of type \"" +
                     tagName + "\" provided. Should be \"table\"");
         }
-
-        // check if there is a tbody element
-        this.hasTBody = findTableChild(".//tbody").isPresent();
-
-        // check if there is a thead element
-        this.hasTHead = findTableChild(".//thead").isPresent();
-
-        // check if there is a tfoot element
-        this.hasTFoot = findTableChild(".//tfoot").isPresent();
     }
 
     @Override
     public int rowCount() {
-        return getRows().size();
+        return rows().size();
     }
 
     @Override
     public SeleniumTableRow get(int rowIndex) {
-        List<SeleniumTableRow> rows = getRows();
+        List<SeleniumTableRow> rows = rows();
         if (rowIndex > (rows.size() - 1)) {
             throw new IndexOutOfBoundsException("Row index " + rowIndex +
                     " too large for table with " + rows.size() + " rows.");
@@ -65,17 +52,17 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
     @Override
     @Nonnull
     public Iterator<SeleniumTableRow> iterator() {
-        return getRows().iterator();
+        return rows().iterator();
     }
 
     @Override
     public void forEach(Consumer<? super SeleniumTableRow> action) {
-        getRows().forEach(action);
+        rows().forEach(action);
     }
 
     @Override
     public Spliterator<SeleniumTableRow> spliterator() {
-        return getRows().spliterator();
+        return rows().spliterator();
     }
 
     @Override
@@ -104,30 +91,22 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public boolean hasTBody() {
-        return hasTBody;
+        return findTableChild(".//tbody").isPresent();
     }
 
     @Override
     public boolean hasTHead() {
-        return hasTHead;
+        return findTableChild(".//thead").isPresent();
     }
 
     @Override
     public boolean hasTFoot() {
-        return hasTFoot;
+        return findTableChild(".//tfoot").isPresent();
     }
 
-    /**
-     * Utility method for internally getting the list of {@link SeleniumTableRow}.
-     * Note that this method is able to fall back to using the {@code tbody} rows
-     * which allows us to iterate over the root table object instead of having to
-     * call {@link this::body()} all the time.
-     *
-     * @return {@link List<SeleniumTableRow>}
-     */
-    private List<SeleniumTableRow> getRows() {
+    public List<SeleniumTableRow> rows() {
         // get the tr elements
-        List<WebElement> elements = findTableChildren(".//" + (hasTBody ? "tbody/tr" : "tr"));
-        return elements.stream().map(SeleniumTableRowImpl::new).collect(Collectors.toList());
+        List<WebElement> elements = findTableChildren(".//" + (hasTBody() ? "tbody/tr" : "tr"));
+        return elements.stream().map(SeleniumTableRow::getInstance).collect(Collectors.toList());
     }
 }
