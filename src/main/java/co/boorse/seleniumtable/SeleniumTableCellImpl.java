@@ -12,4 +12,9 @@ class SeleniumTableCellImpl extends ElementContainerImpl implements SeleniumTabl
     public String getText() {
         return getElement().getText();
     }
+
+    @Override
+    public boolean isHeaderCell() {
+        return getElement().getTagName().toLowerCase().equals("th");
+    }
 }

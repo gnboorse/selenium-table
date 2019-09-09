@@ -21,7 +21,7 @@
         
         <selenium.version>3.141.59</selenium.version>
     </properties>
-R
+
     <dependencies>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

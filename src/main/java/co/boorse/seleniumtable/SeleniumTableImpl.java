@@ -3,6 +3,8 @@ package co.boorse.seleniumtable;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -67,7 +69,7 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public SeleniumTable head() {
-        Optional<WebElement> thead = findTableChild(".//thead");
+        Optional<WebElement> thead = findChild(".//thead");
         WebElement theadElement = thead.orElseThrow(() ->
                 new NoSuchElementException("No element of type \"thead\" found on table."));
         return new SeleniumTableImpl(theadElement);
@@ -75,7 +77,7 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public SeleniumTable body() {
-        Optional<WebElement> tbody = findTableChild(".//tbody");
+        Optional<WebElement> tbody = findChild(".//tbody");
         WebElement theadElement = tbody.orElseThrow(() ->
                 new NoSuchElementException("No element of type \"tbody\" found on table."));
         return new SeleniumTableImpl(theadElement);
@@ -83,7 +85,7 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public SeleniumTable foot() {
-        Optional<WebElement> tfoot = findTableChild(".//tfoot");
+        Optional<WebElement> tfoot = findChild(".//tfoot");
         WebElement theadElement = tfoot.orElseThrow(() ->
                 new NoSuchElementException("No element of type \"tfoot\" found on table."));
         return new SeleniumTableImpl(theadElement);
@@ -91,22 +93,105 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public boolean hasTBody() {
-        return findTableChild(".//tbody").isPresent();
+        return findChild(".//tbody").isPresent();
     }
 
     @Override
     public boolean hasTHead() {
-        return findTableChild(".//thead").isPresent();
+        return findChild(".//thead").isPresent();
     }
 
     @Override
     public boolean hasTFoot() {
-        return findTableChild(".//tfoot").isPresent();
+        return findChild(".//tfoot").isPresent();
     }
 
     public List<SeleniumTableRow> rows() {
         // get the tr elements
-        List<WebElement> elements = findTableChildren(".//" + (hasTBody() ? "tbody/tr" : "tr"));
+        List<WebElement> elements = findChildren(".//" + (hasTBody() ? "tbody/tr" : "tr"));
         return elements.stream().map(SeleniumTableRow::getInstance).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean hasHeaderRow() {
+        return headerRow() != null;
+    }
+
+    @Override
+    public SeleniumTableRow headerRow() {
+        if (hasTHead()) {
+            SeleniumTable thead = head();
+            if (thead.rowCount() > 0) {
+                SeleniumTableRow firstRow = thead.get(0);
+                if (firstRow.isHeaderRow()) {
+                    return firstRow;
+                }
+            }
+        }
+        List<SeleniumTableRow> rows = rows();
+        return rows.stream()
+                .filter(SeleniumTableRow::isHeaderRow)
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    public String getCaption() {
+        Optional<WebElement> caption = findChild(".//caption");
+        return caption.map(WebElement::getText).orElse(null);
+    }
+
+    @Override
+    public boolean hasCaption() {
+        return getCaption() != null;
+    }
+
+    @Override
+    public List<SeleniumTableCell> getColumn(String columnName) {
+        // find the index of this column name
+        int foundIndex = getColumnIndex(columnName);
+
+        // if the column cannot be found, we throw an exception
+        if (foundIndex == -1) {
+            throw new IllegalArgumentException("Unable to find column named \"" + columnName +
+                    "\" in table.");
+        }
+
+        // column index found... now we get all cells at that index
+        List<SeleniumTableCell> columnCells = new ArrayList<>();
+        for (SeleniumTableRow row : rows()) {
+            try {
+                SeleniumTableCell cell = row.get(foundIndex);
+                columnCells.add(cell);
+            } catch (IndexOutOfBoundsException ignored) {
+                // for now we ignore rows that don't have the column
+            }
+        }
+
+        return columnCells;
+    }
+
+    @Override
+    public boolean hasColumn(String columnName) {
+        return getColumnIndex(columnName) > -1;
+    }
+
+    private int getColumnIndex(String columnName) {
+        // get the header row
+        SeleniumTableRow headerRow = headerRow();
+        // if there is no header row, we throw an exception
+        if (headerRow == null) {
+            throw new UnsupportedOperationException("Cannot get cells for column \"" + columnName +
+                    "\" on table without header row.");
+        }
+
+        // find the index of this column name
+        int foundIndex = -1;
+        for (int i = 0; i < headerRow.cellCount(); i++) {
+            if (headerRow.get(i).getText().equalsIgnoreCase(columnName)) {
+                foundIndex = i;
+                break;
+            }
+        }
+        return foundIndex;
     }
 }

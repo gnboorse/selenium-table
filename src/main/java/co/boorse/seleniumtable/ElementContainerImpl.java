@@ -28,7 +28,7 @@ class ElementContainerImpl implements ElementContainer {
      * @param xpath
      * @return
      */
-    protected Optional<WebElement> findTableChild(String xpath) {
+    protected Optional<WebElement> findChild(String xpath) {
         try {
             return Optional.ofNullable(getElement().findElement(By.xpath(xpath)));
         } catch (NoSuchElementException e) {
@@ -41,7 +41,7 @@ class ElementContainerImpl implements ElementContainer {
      * @param xpath
      * @return
      */
-    protected List<WebElement> findTableChildren(String xpath) {
+    protected List<WebElement> findChildren(String xpath) {
         return getElement().findElements(By.xpath(xpath));
     }
 }
