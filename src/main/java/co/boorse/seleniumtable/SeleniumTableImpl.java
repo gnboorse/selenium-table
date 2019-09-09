@@ -159,11 +159,13 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
         // column index found... now we get all cells at that index
         List<SeleniumTableCell> columnCells = new ArrayList<>();
         for (SeleniumTableRow row : rows()) {
-            try {
-                SeleniumTableCell cell = row.get(foundIndex);
-                columnCells.add(cell);
-            } catch (IndexOutOfBoundsException ignored) {
-                // for now we ignore rows that don't have the column
+            if (!row.isHeaderRow()) {
+                try {
+                    SeleniumTableCell cell = row.get(foundIndex);
+                    columnCells.add(cell);
+                } catch (IndexOutOfBoundsException ignored) {
+                    // for now we ignore rows that don't have the column
+                }
             }
         }
 

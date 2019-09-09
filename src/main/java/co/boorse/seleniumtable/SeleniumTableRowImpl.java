@@ -53,9 +53,8 @@ class SeleniumTableRowImpl extends ElementContainerImpl implements SeleniumTable
 
     @Override
     public List<SeleniumTableCell> cells() {
-        List<WebElement> cells = findChildren(".//td");
-        List<WebElement> headerCells = findChildren(".//th");
-        return Stream.concat(cells.stream(), headerCells.stream())
+        List<WebElement> cells = findChildren(".//td|.//th");
+        return cells.stream()
                 .map(SeleniumTableCell::getInstance)
                 .collect(Collectors.toList());
     }

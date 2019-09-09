@@ -43,7 +43,7 @@ public class SeleniumTableTest {
                 .thenReturn(Collections.singletonList(rowElement));
 
         WebElement cellElement = mock(WebElement.class);
-        when(rowElement.findElements(eq(By.xpath(".//td"))))
+        when(rowElement.findElements(eq(By.xpath(".//td|.//th"))))
                 .thenReturn(Collections.singletonList(cellElement));
 
 
@@ -88,7 +88,7 @@ public class SeleniumTableTest {
                 .thenReturn(Collections.singletonList(rowElement));
 
         WebElement cellElement = mock(WebElement.class);
-        when(rowElement.findElements(eq(By.xpath(".//td"))))
+        when(rowElement.findElements(eq(By.xpath(".//td|.//th"))))
                 .thenReturn(Collections.singletonList(cellElement));
 
 
@@ -133,7 +133,7 @@ public class SeleniumTableTest {
                 .thenReturn(Collections.singletonList(rowElement));
 
         WebElement cellElement = mock(WebElement.class);
-        when(rowElement.findElements(eq(By.xpath(".//td"))))
+        when(rowElement.findElements(eq(By.xpath(".//td|.//th"))))
                 .thenReturn(Collections.singletonList(cellElement));
 
         List<WebElement> encounteredRows = new ArrayList<>();
