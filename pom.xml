@@ -7,8 +7,39 @@
     <groupId>co.boorse</groupId>
     <artifactId>selenium-table</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-    <name>Selenium HTML table data extraction library</name>
+    <name>Selenium Table</name>
+    <description>Selenium wrapper for HTML table elements</description>
+    <url>https://github.com/gnboorse/selenium-table</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <email>gnboorse@gmail.com</email>
+            <name>Gabriel Boorse</name>
+            <url>https://github.com/gnboorse</url>
+            <id>gnboorse</id>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/gnboorse/selenium-table.git</connection>
+        <developerConnection>scm:git:ssh://github.com:gnboorse/selenium-table.git</developerConnection>
+        <url>https://github.com/gnboorse/selenium-table</url>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/gnboorse/selenium-table/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,7 +49,7 @@
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        
+
         <selenium.version>3.141.59</selenium.version>
     </properties>
 
