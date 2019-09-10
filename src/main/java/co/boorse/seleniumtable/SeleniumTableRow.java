@@ -25,9 +25,9 @@ public interface SeleniumTableRow extends ElementContainer, Iterable<SeleniumTab
     SeleniumTableCell get(int columnIndex);
 
     /**
-     * Gets the {@link List<SeleniumTableCell>} of all cells in this row
+     * Gets the {@link List} of all {@link SeleniumTableCell} in this row
      *
-     * @return {@link List<SeleniumTableCell>}
+     * @return {@link List} of {@link SeleniumTableCell}
      */
     List<SeleniumTableCell> cells();
 

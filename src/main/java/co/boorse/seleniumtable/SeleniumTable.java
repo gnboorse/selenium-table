@@ -39,12 +39,12 @@ public interface SeleniumTable extends Iterable<SeleniumTableRow>, ElementContai
     SeleniumTableCell get(int rowIndex, int columnIndex);
 
     /**
-     * Gets the {@link List<SeleniumTableCell>} of all cells
+     * Gets the {@link List} of all cells
      * under the given column name.
      * A column name corresponds to the text value of a {@code <th>}
      * element somewhere in the table.
      * @param columnName the name of the column to get cells for
-     * @return {@link List<SeleniumTableCell>}
+     * @return {@link List} of {@link SeleniumTableCell}
      * @throws UnsupportedOperationException if there is no header row in the table
      * @throws IllegalArgumentException if the provided column name cannot be found in the header row
      */
@@ -64,9 +64,9 @@ public interface SeleniumTable extends Iterable<SeleniumTableRow>, ElementContai
      * Gets a list of all rows in the table.
      * Note that this method is able to fall back to using the {@code tbody} rows
      * which allows us to iterate over the root table object instead of having to
-     * call {@link this::body()} all the time.
+     * call {@code body())} all the time.
      *
-     * @return {@link List<SeleniumTableRow>} list of rows
+     * @return {@link List} of {@link SeleniumTableRow}
      */
     List<SeleniumTableRow> rows();
 
