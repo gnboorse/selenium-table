@@ -31,10 +31,10 @@ Now you can iterate over the rows and columns using a foreach loop.
 
 ```java
 for (SeleniumTableRow row : table) {
-	for (SeleniumTableCell cell : cells) {
+  for (SeleniumTableCell cell : cells) {
     // do something with the cell contents, for example...
-		System.out.println(cell.getText());
-	}
+    System.out.println(cell.getText());
+  }
 }
 ```
 
@@ -42,11 +42,11 @@ You can also use a traditional for loop.
 
 ```java
 for (int i = 0; i < table.rowCount(); i++) {
-	SeleniumTableRow row = table.get(i);
-	for (int j = 0; j < row.cellCount(); j++) {
-		SeleniumTableCell cell = row.get(j);
-		System.out.println(cell.getText());
-	}
+  SeleniumTableRow row = table.get(i);
+  for (int j = 0; j < row.cellCount(); j++) {
+    SeleniumTableCell cell = row.get(j);
+    System.out.println(cell.getText());
+  }
 }
 ```
 
@@ -61,7 +61,7 @@ If the HTML table has headers, `SeleniumTable` can deal with that too.
 ```java
 // get the header row (containing <th> elements)
 if (table.hasHeaderRow()) {
-	SeleniumTableRow headerRow = table.headerRow();
+  SeleniumTableRow headerRow = table.headerRow();
 }
 ```
 
@@ -71,7 +71,7 @@ Additionally, `SeleniumTable` can locate cells using header or column names. Col
 // if there is a header cell containing the text "Header 1"
 if (table.hasColumn("Header 1")) {
   // get all cells in the table below the heading "Header 1"
-	List<SeleniumTableCell> header1Cells = table.getColumn("Header 1");
+  List<SeleniumTableCell> header1Cells = table.getColumn("Header 1");
 }
 ```
 
@@ -83,7 +83,7 @@ To release new versions of the library, follow the steps below:
 mvn clean install
 mvn release:prepare
 mvn release:perform
-git push–tags
+git push -–tags
 git push origin master
 ```
 
