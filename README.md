@@ -72,3 +72,18 @@ if (table.hasColumn("Header 1")) {
 	List<SeleniumTableCell> header1Cells = table.getColumn("Header 1");
 }
 ```
+
+## Release process
+
+To release new versions of the library, following the steps below:
+
+```bash
+mvn clean install
+mvn release:prepare
+mvn release:perform
+git push–tags
+git push origin master
+```
+
+The release process used to deploy this library to Maven Central is described in [this tutorial](https://dzone.com/articles/publish-your-artifacts-to-maven-central).
+
