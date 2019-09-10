@@ -1,6 +1,6 @@
 # selenium-table
 
-![Maven Central](https://img.shields.io/maven-central/v/co.boorse/selenium-table) 
+[![Maven Central](https://img.shields.io/maven-central/v/co.boorse/selenium-table.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22co.boorse%22%20AND%20a%3A%22selenium-table%22) [![Javadocs](http://www.javadoc.io/badge/co.boorse/selenium-table.svg?color=red)](http://www.javadoc.io/doc/co.boorse/selenium-table) [![MIT License](http://img.shields.io/badge/license-MIT-green.svg)](https://github.com/gnboorse/selenium-table/blob/master/LICENSE)
 
 This is a Selenium helper library for interacting with HTML tables in a meaningful way.
 
