@@ -1,5 +1,7 @@
 # selenium-table
 
+![Maven Central](https://img.shields.io/maven-central/v/co.boorse/selenium-table) 
+
 This is a Selenium helper library for interacting with HTML tables in a meaningful way.
 
 ## Installation
