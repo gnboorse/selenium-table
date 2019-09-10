@@ -75,7 +75,7 @@ if (table.hasColumn("Header 1")) {
 
 ## Release process
 
-To release new versions of the library, following the steps below:
+To release new versions of the library, follow the steps below:
 
 ```bash
 mvn clean install
@@ -87,3 +87,4 @@ git push origin master
 
 The release process used to deploy this library to Maven Central is described in [this tutorial](https://dzone.com/articles/publish-your-artifacts-to-maven-central).
 
+Note that GPG signing will not work unless you have the key.
