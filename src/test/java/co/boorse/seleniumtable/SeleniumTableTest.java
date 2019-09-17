@@ -41,10 +41,14 @@ public class SeleniumTableTest {
         WebElement rowElement = mock(WebElement.class);
         when(tableElement.findElements(eq(By.xpath(".//tr"))))
                 .thenReturn(Collections.singletonList(rowElement));
+        when(tableElement.findElement(eq(By.xpath(".//tr[1]"))))
+                .thenReturn(rowElement);
 
         WebElement cellElement = mock(WebElement.class);
         when(rowElement.findElements(eq(By.xpath(".//td|.//th"))))
                 .thenReturn(Collections.singletonList(cellElement));
+        when(rowElement.findElement(eq(By.xpath("(.//td|.//th)[1]"))))
+                .thenReturn(cellElement);
 
 
         // act
@@ -84,12 +88,18 @@ public class SeleniumTableTest {
         WebElement rowElement = mock(WebElement.class);
         when(tableElement.findElements(eq(By.xpath(".//tbody/tr"))))
                 .thenReturn(Collections.singletonList(rowElement));
+        when(tableElement.findElement(eq(By.xpath(".//tbody/tr[1]"))))
+                .thenReturn(rowElement);
         when(tbodyElement.findElements(eq(By.xpath(".//tr"))))
                 .thenReturn(Collections.singletonList(rowElement));
+        when(tbodyElement.findElement(eq(By.xpath(".//tr[1]"))))
+                .thenReturn(rowElement);
 
         WebElement cellElement = mock(WebElement.class);
         when(rowElement.findElements(eq(By.xpath(".//td|.//th"))))
                 .thenReturn(Collections.singletonList(cellElement));
+        when(rowElement.findElement(eq(By.xpath("(.//td|.//th)[1]"))))
+                .thenReturn(cellElement);
 
 
         // act
@@ -131,10 +141,14 @@ public class SeleniumTableTest {
         WebElement rowElement = mock(WebElement.class);
         when(tableElement.findElements(eq(By.xpath(".//tr"))))
                 .thenReturn(Collections.singletonList(rowElement));
+        when(tableElement.findElement(eq(By.xpath(".//tr[1]"))))
+                .thenReturn(rowElement);
 
         WebElement cellElement = mock(WebElement.class);
         when(rowElement.findElements(eq(By.xpath(".//td|.//th"))))
                 .thenReturn(Collections.singletonList(cellElement));
+        when(rowElement.findElement(eq(By.xpath("(.//td|.//th)[1]"))))
+                .thenReturn(cellElement);
 
         List<WebElement> encounteredRows = new ArrayList<>();
         List<WebElement> encounteredCells = new ArrayList<>();

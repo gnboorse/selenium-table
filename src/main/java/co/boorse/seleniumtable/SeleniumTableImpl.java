@@ -3,7 +3,6 @@ package co.boorse.seleniumtable;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -32,18 +31,15 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public int rowCount() {
-        return rows().size();
+        List<WebElement> elements = findChildren(".//" + (hasTBody() ? "tbody/tr" : "tr"));
+        return elements.size();
     }
 
     @Override
     public SeleniumTableRow get(int rowIndex) {
-        List<SeleniumTableRow> rows = rows();
-        if (rowIndex > (rows.size() - 1)) {
-            throw new IndexOutOfBoundsException("Row index " + rowIndex +
-                    " too large for table with " + rows.size() + " rows.");
-        }
-
-        return rows.get(rowIndex);
+        Optional<WebElement> elementOptional = findChild(".//" + (hasTBody() ? "tbody/tr" : "tr") + "[" + (rowIndex + 1) + "]");
+        WebElement webElement = elementOptional.orElseThrow(() -> new IndexOutOfBoundsException("Row index " + rowIndex + " out of bounds for table."));
+        return SeleniumTableRow.getInstance(webElement);
     }
 
     @Override
@@ -54,17 +50,7 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
     @Override
     @Nonnull
     public Iterator<SeleniumTableRow> iterator() {
-        return rows().iterator();
-    }
-
-    @Override
-    public void forEach(Consumer<? super SeleniumTableRow> action) {
-        rows().forEach(action);
-    }
-
-    @Override
-    public Spliterator<SeleniumTableRow> spliterator() {
-        return rows().spliterator();
+        return new LazyIterator<>(0, rowCount(), this::get);
     }
 
     @Override
@@ -114,7 +100,8 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public boolean hasHeaderRow() {
-        return headerRow() != null;
+        List<WebElement> elements = findChildren(".//" + (hasTBody() ? "tbody/tr" : "tr") + "//th");
+        return elements.size() > 0;
     }
 
     @Override
@@ -129,7 +116,7 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
             }
         }
         List<SeleniumTableRow> rows = rows();
-        return rows.stream()
+        return rows.parallelStream()
                 .filter(SeleniumTableRow::isHeaderRow)
                 .findFirst().orElse(null);
     }
@@ -147,6 +134,11 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public List<SeleniumTableCell> getColumn(String columnName) {
+        return getColumn(columnName, false);
+    }
+
+    @Override
+    public List<SeleniumTableCell> getColumn(String columnName, boolean includeNulls) {
         // find the index of this column name
         int foundIndex = getColumnIndex(columnName);
 
@@ -164,7 +156,9 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
                     SeleniumTableCell cell = row.get(foundIndex);
                     columnCells.add(cell);
                 } catch (IndexOutOfBoundsException ignored) {
-                    // for now we ignore rows that don't have the column
+                    if (includeNulls) {
+                        columnCells.add(null);
+                    }
                 }
             }
         }

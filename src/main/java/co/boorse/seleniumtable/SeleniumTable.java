@@ -51,6 +51,22 @@ public interface SeleniumTable extends Iterable<SeleniumTableRow>, ElementContai
     List<SeleniumTableCell> getColumn(String columnName);
 
     /**
+     * Gets the {@link List} of all cells
+     * under the given column name.
+     * A column name corresponds to the text value of a {@code <th>}
+     * element somewhere in the table.
+     * @param columnName the name of the column to get cells for
+     * @param includeNulls flag indicating whether or not the list should contain null values
+     *                     if encountered in the column. If this is set to true
+     *                     some of the {@link SeleniumTableCell}s returned by this method
+     *                     may actually be null
+     * @return {@link List} of {@link SeleniumTableCell}
+     * @throws UnsupportedOperationException if there is no header row in the table
+     * @throws IllegalArgumentException if the provided column name cannot be found in the header row
+     */
+    List<SeleniumTableCell> getColumn(String columnName, boolean includeNulls);
+
+    /**
      * Gets a flag indicating whether or not the provided column name
      * is present in the table.
      * A column name corresponds to the text value of a {@code <th>}
