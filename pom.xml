@@ -5,7 +5,7 @@
 
     <groupId>co.boorse</groupId>
     <artifactId>selenium-table</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>Selenium Table</name>
@@ -33,7 +33,7 @@
         <connection>scm:git:git://github.com/gnboorse/selenium-table.git</connection>
         <developerConnection>scm:git:ssh://github.com:gnboorse/selenium-table.git</developerConnection>
         <url>https://github.com/gnboorse/selenium-table</url>
-        <tag>HEAD</tag>
+        <tag>selenium-table-1.1</tag>
     </scm>
 
     <issueManagement>
