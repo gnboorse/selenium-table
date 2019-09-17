@@ -100,7 +100,7 @@ class SeleniumTableImpl extends ElementContainerImpl implements SeleniumTable {
 
     @Override
     public boolean hasHeaderRow() {
-        List<WebElement> elements = findChildren(".//" + (hasTBody() ? "tbody/tr" : "tr") + "//th");
+        List<WebElement> elements = findChildren(".//" + (hasTHead() ? "thead/tr" : (hasTBody() ? "tbody/tr" : "tr")) + "//th");
         return elements.size() > 0;
     }
 
